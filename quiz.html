@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup - Jeopardy Quiz</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Absolute centering specifically for the initial setup container */
+    #setup-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      transition: opacity 0.6s var(--transition-bezier), transform 0.6s var(--transition-bezier);
+    }
+    #setup-container.hidden {
+      opacity: 0;
+      transform: translate(-50%, -60%) scale(0.9);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="quiz-page">
+
+  <!-- Ambient background glow elements -->
+  <div class="glow-top-right"></div>
+  <div class="glow-bottom-left"></div>
+
+
+  <div class="quiz-board-header aesthetic-header-card" id="quiz-board-header" style="display: none;">
+    <h2 class="section-title quiz-title">Jeopardy Quiz Board</h2>
+  </div>
+  
+  <!-- Scoreboard Container -->
+  <div class="scoreboard-container" id="scoreboard-container" style="display: none;">
+    <div class="scoreboard" id="scoreboard"></div>
+  </div>
+
+  <!-- Quiz Header -->
+  
+
+  <!-- Game Board Container -->
+  <div class="game-board-container" id="game-board-container" style="display: none;">
+    <div class="board-sidebar">
+      <div class="sidebar-label category-label">Category</div>
+      <div class="sidebar-label points-label">Points</div>
+    </div>
+    <div class="game-grid" id="game-grid"></div>
+  </div>
+
+  <!-- Control Buttons Container -->
+  <div class="control-buttons-container" id="control-buttons-container" style="display: none;">
+    <button class="btn-control btn-restart" id="btn-restart">Restart Game</button>
+    <button class="btn-control btn-end" id="btn-end">End Game</button>
+  </div>
+
+  <!-- Central Card (Initial Setup) -->
+  <div id="setup-container">
+    <div class="quiz-card" id="quiz-card">
+      <div class="quiz-card-inner">
+        <h2 class="quiz-card-title">How many groups/teams<br>will play this game?</h2>
+        
+        <div class="quiz-card-input-wrapper">
+          <input type="number" min="1" max="35" placeholder="Enter number..." class="quiz-input" id="group-count-input" autofocus>
+        </div>
+
+        <div class="quiz-buttons">
+          <a href="index.html" class="btn-quiz btn-cancel">Cancel</a>
+          <button class="btn-quiz btn-enter" id="btn-enter">Enter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Backdrop for Question Details -->
+  <div class="modal-backdrop" id="question-modal-backdrop">
+    <div class="question-modal" id="question-modal">
+      <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      
+      <!-- Section 1: Question Details -->
+      <div class="modal-question-card">
+        <div class="modal-timer-container">
+          <div class="modal-timer" id="modal-timer">20s</div>
+        </div>
+        <h3 class="modal-question-title" id="modal-title">Take A Guess 🧑‍🍳</h3>
+        <p class="modal-question-text" id="modal-question">Question goes here...</p>
+      </div>
+
+      <!-- Section 2: Show Answer / Answer Revealed -->
+      <div class="modal-answer-container">
+        <button class="btn-reveal-answer" id="btn-reveal-answer">Show The Answer!</button>
+        <div class="modal-answer-text" id="modal-answer-text" style="display: none;">Answer text here</div>
+      </div>
+
+      <!-- Section 3: Winner Selection -->
+      <div class="modal-winner-card">
+        <h4 class="modal-winner-label">choose the winner:</h4>
+        <div class="modal-winner-grid" id="modal-winner-grid">
+          <!-- Dynamically populated teams list -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Game Modal Backdrop -->
+  <div class="modal-backdrop" id="end-game-modal-backdrop">
+    <div class="end-game-modal" id="end-game-modal">
+      <div class="end-game-header">
+        <span class="trophy-emoji">🏆</span>
+        <h2 class="end-game-title">Final Leaderboard</h2>
+      </div>
+
+      <!-- Sorted Leaderboard List -->
+      <div class="leaderboard-list" id="leaderboard-list">
+        <!-- Dynamically populated rank cards -->
+      </div>
+
+      <!-- Winner Announcement banner -->
+      <div class="winner-announcement" id="winner-announcement">
+        <!-- Will display: The Winner is Team X! -->
+      </div>
+
+      <!-- Exit Button -->
+      <div class="exit-btn-container">
+        <a href="index.html" class="btn-exit">Exit Game</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load global questions dataset -->
+  <script src="js/questions.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const card = document.getElementById("quiz-card");
+      const setupContainer = document.getElementById("setup-container");
+      const cols = 8;
+      const rows = 4;
+
+      // Top row & Bottom row for border lights
+      for (let i = 0; i < cols; i++) {
+        const xPercent = (i / (cols - 1)) * 100;
+        createLight(xPercent, 0);
+        createLight(xPercent, 100);
+      }
+
+      // Left & Right columns (excluding corners) for border lights
+      for (let j = 1; j < rows - 1; j++) {
+        const yPercent = (j / (rows - 1)) * 100;
+        createLight(0, yPercent);
+        createLight(100, yPercent);
+      }
+
+      function createLight(xPercent, yPercent) {
+        const light = document.createElement("div");
+        light.className = "border-light";
+        
+        let leftStyle = "";
+        let topStyle = "";
+
+        if (xPercent === 0) {
+          leftStyle = "8px";
+        } else if (xPercent === 100) {
+          leftStyle = "calc(100% - 8px)";
+        } else {
+          leftStyle = `calc(8px + (100% - 16px) * ${xPercent / 100})`;
+        }
+
+        if (yPercent === 0) {
+          topStyle = "8px";
+        } else if (yPercent === 100) {
+          topStyle = "calc(100% - 8px)";
+        } else {
+          topStyle = `calc(8px + (100% - 16px) * ${yPercent / 100})`;
+        }
+
+        light.style.left = leftStyle;
+        light.style.top = topStyle;
+        
+        card.appendChild(light);
+      }
+
+      // Global variables to store group count, team scores, and countdown timer
+      window.group = 0;
+      window.teamScores = {};
+      let timerInterval = null;
+
+      const enterBtn = document.getElementById("btn-enter");
+      const input = document.getElementById("group-count-input");
+      const scoreboardContainer = document.getElementById("scoreboard-container");
+      const scoreboard = document.getElementById("scoreboard");
+      
+      const gameBoardContainer = document.getElementById("game-board-container");
+      const gameGrid = document.getElementById("game-grid");
+
+      // Modal elements
+      const backdrop = document.getElementById("question-modal-backdrop");
+      const modalTitle = document.getElementById("modal-title");
+      const modalQuestion = document.getElementById("modal-question");
+      const btnRevealAnswer = document.getElementById("btn-reveal-answer");
+      const modalAnswerText = document.getElementById("modal-answer-text");
+      const winnerGrid = document.getElementById("modal-winner-grid");
+      const closeBtn = document.getElementById("modal-close-btn");
+      const modalTimer = document.getElementById("modal-timer");
+
+      // Open Modal handler
+      function openModal(category, val, cardItem) {
+        const categoryEmojis = {
+          "Foodie": "🧑‍🍳",
+          "History": "📜",
+          "Movie": "🎬",
+          "Place": "📍",
+          "Fun Fact": "💡",
+          "Science": "🔬",
+          "Sports": "🏆"
+        };
+        
+        const emoji = categoryEmojis[category] || "❓";
+        modalTitle.textContent = `Take A Guess ${emoji}`;
+        
+        // Find question
+        const qData = jeopardyData[category]?.[val] || { q: "No question configured for this category.", a: "No answer found." };
+        modalQuestion.textContent = qData.q;
+        modalAnswerText.textContent = qData.a;
+
+        // Reset answer reveal states
+        modalAnswerText.style.display = "none";
+        btnRevealAnswer.style.display = "block";
+
+        // Reset and start 20s countdown timer
+        clearInterval(timerInterval);
+        let timeLeft = 20;
+        modalTimer.textContent = "20s";
+        modalTimer.classList.remove("warning");
+
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          modalTimer.textContent = `${timeLeft}s`;
+
+          if (timeLeft <= 5) {
+            modalTimer.classList.add("warning");
+          }
+
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Times up, give the correct answer");
+          }
+        }, 1000);
+
+        // Build winner teams selection grid
+        winnerGrid.innerHTML = "";
+        for (let t = 1; t <= window.group; t++) {
+          const btn = document.createElement("button");
+          btn.className = "btn-winner-team";
+          btn.textContent = `Team ${t}`;
+          btn.addEventListener("click", () => {
+            // Add points to selected team
+            window.teamScores[t] += val;
+            document.getElementById(`team-score-val-${t}`).textContent = window.teamScores[t];
+            
+            // Fade out point card
+            cardItem.classList.add("played");
+            closeModal();
+          });
+          winnerGrid.appendChild(btn);
+        }
+
+        // Add a "No Winner" button
+        const noWinnerBtn = document.createElement("button");
+        noWinnerBtn.className = "btn-winner-team btn-winner-none";
+        noWinnerBtn.textContent = "No Winner";
+        noWinnerBtn.addEventListener("click", () => {
+          cardItem.classList.add("played");
+          closeModal();
+        });
+        winnerGrid.appendChild(noWinnerBtn);
+
+        backdrop.classList.add("visible");
+      }
+
+      function closeModal() {
+        backdrop.classList.remove("visible");
+        clearInterval(timerInterval);
+      }
+
+      // Close modal events
+      closeBtn.addEventListener("click", closeModal);
+      
+      // Reveal answer event
+      btnRevealAnswer.addEventListener("click", () => {
+        clearInterval(timerInterval); // Stop timer on manual reveal
+        btnRevealAnswer.style.display = "none";
+        modalAnswerText.style.display = "block";
+      });
+
+      function processGroupCount() {
+        const value = parseInt(input.value, 10);
+        if (isNaN(value) || value < 1 || value > 35) {
+          alert("Please enter a valid number of groups (1-35).");
+          return;
+        }
+
+        // 1. Store inside variable "group"
+        window.group = value;
+
+        // 2. Hide setup form with CSS transition
+        setupContainer.classList.add("hidden");
+        setTimeout(() => {
+          setupContainer.style.display = "none";
+        }, 600);
+
+        // 3. Clear and build scoreboard based on dynamic team count
+        scoreboard.innerHTML = "";
+        window.teamScores = {};
+        
+        if (window.group > 12) {
+          scoreboard.classList.add("compact");
+        } else {
+          scoreboard.classList.remove("compact");
+        }
+
+        for (let t = 1; t <= window.group; t++) {
+          window.teamScores[t] = 0;
+          const scorePill = document.createElement("div");
+          scorePill.className = "score-pill";
+          scorePill.innerHTML = `
+            <span class="score-team">Team ${t}</span>
+            <div class="score-divider"></div>
+            <span class="score-val" id="team-score-val-${t}">0</span>
+            <span class="score-unit">pts</span>
+          `;
+          scoreboard.appendChild(scorePill);
+        }
+
+        // 4. Generate Game Board grid (7 categories x 6 points rows)
+        const categories = ["Foodie", "History", "Movie", "Place", "Fun Fact", "Science", "Sports"];
+        const points = [20, 40, 80, 120, 160, 200];
+        
+        gameGrid.innerHTML = "";
+
+        // First row: Categories header
+        categories.forEach(cat => {
+          const header = document.createElement("div");
+          header.className = "cat-header";
+          header.textContent = cat;
+          gameGrid.appendChild(header);
+        });
+
+        // Rows 2-7: Point cards
+        points.forEach((val, rowIndex) => {
+          for (let col = 0; col < categories.length; col++) {
+            const categoryName = categories[col];
+            const cardItem = document.createElement("div");
+            cardItem.className = `point-card row-${rowIndex + 1}`;
+            cardItem.textContent = val;
+            
+            // Open question modal when clicked
+            cardItem.addEventListener("click", () => {
+              if (!cardItem.classList.contains("played")) {
+                openModal(categoryName, val, cardItem);
+              }
+            });
+
+            gameGrid.appendChild(cardItem);
+          }
+        });
+
+        // 5. Display containers
+        scoreboardContainer.style.display = "flex";
+        quizBoardHeader.style.display = "flex";
+        gameBoardContainer.style.display = "flex";
+        controlButtonsContainer.style.display = "flex";
+
+        setTimeout(() => {
+          scoreboardContainer.classList.add("visible");
+          quizBoardHeader.classList.add("visible");
+          gameBoardContainer.classList.add("visible");
+        }, 150);
+      }
+
+      // Control elements
+      const quizBoardHeader = document.getElementById("quiz-board-header");
+      const controlButtonsContainer = document.getElementById("control-buttons-container");
+      const restartBtn = document.getElementById("btn-restart");
+      const endBtn = document.getElementById("btn-end");
+      const endGameBackdrop = document.getElementById("end-game-modal-backdrop");
+      const leaderboardList = document.getElementById("leaderboard-list");
+      const winnerAnnouncement = document.getElementById("winner-announcement");
+
+      // Restart Game button click handler
+      restartBtn.addEventListener("click", () => {
+        window.location.reload();
+      });
+
+      // End Game button click handler
+      endBtn.addEventListener("click", () => {
+        const scoresArray = [];
+        for (let t = 1; t <= window.group; t++) {
+          scoresArray.push({
+            team: `Team ${t}`,
+            score: window.teamScores[t]
+          });
+        }
+
+        // Sort descending by score
+        scoresArray.sort((a, b) => b.score - a.score);
+
+        // Populate the leaderboard DOM
+        leaderboardList.innerHTML = "";
+        scoresArray.forEach((item, index) => {
+          const rank = index + 1;
+          const leaderboardItem = document.createElement("div");
+          leaderboardItem.className = `leaderboard-item rank-${rank}`;
+          if (rank === 1) {
+            leaderboardItem.classList.add("rank-1");
+          }
+
+          let rankDisplay = `#${rank}`;
+          if (rank === 1) rankDisplay = "🥇";
+          else if (rank === 2) rankDisplay = "🥈";
+          else if (rank === 3) rankDisplay = "🥉";
+
+          leaderboardItem.innerHTML = `
+            <span class="rank-badge">${rankDisplay}</span>
+            <span class="rank-team">${item.team}</span>
+            <span class="rank-score">${item.score}<span class="score-unit">pts</span></span>
+          `;
+          leaderboardList.appendChild(leaderboardItem);
+        });
+
+        // Determine Winner / Ties
+        const maxScore = scoresArray[0].score;
+        const winners = scoresArray.filter(item => item.score === maxScore);
+        let announcementText = "";
+
+        if (winners.length === 1) {
+          announcementText = `🎉 The Winner is ${winners[0].team}! 🎉`;
+        } else {
+          const winnerNames = winners.map(w => w.team).join(", ");
+          announcementText = `🎉 It's a Tie! Winners: ${winnerNames} 🎉`;
+        }
+        winnerAnnouncement.textContent = announcementText;
+
+        // Show the End Game modal
+        endGameBackdrop.classList.add("visible");
+      });
+
+      // Click event
+      enterBtn.addEventListener("click", processGroupCount);
+
+      // Enter keypress listener for the input field
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          processGroupCount();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
