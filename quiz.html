@@ -23,6 +23,148 @@
       transform: translate(-50%, -60%) scale(0.9);
       pointer-events: none;
     }
+    .setup-step {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .setup-step.active {
+      display: flex;
+      animation: setupFadeIn 0.4s var(--transition-bezier);
+    }
+    @keyframes setupFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    #team-names-inputs-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px 12px;
+      width: 100%;
+      max-height: 260px;
+      overflow-y: auto;
+      padding: 8px;
+      margin-bottom: 24px;
+      box-sizing: border-box;
+    }
+    /* Custom scrollbar for names container */
+    #team-names-inputs-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    #team-names-inputs-container::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+    }
+    #team-names-inputs-container::-webkit-scrollbar-thumb {
+      background: rgba(76, 63, 61, 0.3);
+      border-radius: 10px;
+    }
+    #team-names-inputs-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(76, 63, 61, 0.5);
+    }
+    .team-input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      width: 100%;
+    }
+    .team-input-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #4c3f3d;
+      text-transform: uppercase;
+      margin-left: 8px;
+    }
+    .team-input-group .quiz-input {
+      padding: 10px 16px;
+      font-size: 1rem;
+      text-align: left;
+      border-radius: 16px;
+    }
+    .btn-no {
+      background-color: #b5a387;
+    }
+    .btn-no:hover {
+      background-color: #c4b296;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(181, 163, 135, 0.3);
+    }
+    /* Time's Up Overlay inside Modal */
+    .times-up-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(141, 167, 223, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--transition-bezier);
+    }
+    .times-up-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .times-up-content {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+    .times-up-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 800;
+      color: #e26156;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      animation: pulse-title 1.2s infinite alternate var(--transition-bezier);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    @keyframes pulse-title {
+      from { transform: scale(0.96); }
+      to { transform: scale(1.04); }
+    }
+    .times-up-subtitle {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      color: #1e1e1e;
+      margin-bottom: 24px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .times-up-countdown {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 5rem);
+      font-weight: 900;
+      color: #ffffff;
+      background: #9e1b1b;
+      border: 5px solid #ffd54f;
+      padding: 10px 48px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25), 
+                  0 0 20px rgba(255, 213, 79, 0.2);
+      text-shadow: 2px 2px 0px #4a0d0d;
+      position: relative;
+    }
   </style>
 </head>
 <body class="quiz-page">
@@ -63,16 +205,46 @@
   <div id="setup-container">
     <div class="quiz-card" id="quiz-card">
       <div class="quiz-card-inner">
-        <h2 class="quiz-card-title">How many groups/teams<br>will play this game?</h2>
         
-        <div class="quiz-card-input-wrapper">
-          <input type="number" min="1" max="35" placeholder="Enter number..." class="quiz-input" id="group-count-input" autofocus>
+        <!-- Step 1: Group Count -->
+        <div id="setup-step-1" class="setup-step active">
+          <h2 class="quiz-card-title">How many groups/teams<br>will play this game?</h2>
+          
+          <div class="quiz-card-input-wrapper">
+            <input type="number" min="1" max="35" placeholder="Enter number..." class="quiz-input" id="group-count-input" autofocus>
+          </div>
+
+          <div class="quiz-buttons">
+            <a href="index.html" class="btn-quiz btn-cancel">Cancel</a>
+            <button class="btn-quiz btn-enter" id="btn-enter-step1">Enter</button>
+          </div>
         </div>
 
-        <div class="quiz-buttons">
-          <a href="index.html" class="btn-quiz btn-cancel">Cancel</a>
-          <button class="btn-quiz btn-enter" id="btn-enter">Enter</button>
+        <!-- Step 2: Custom Names Confirmation -->
+        <div id="setup-step-2" class="setup-step">
+          <h2 class="quiz-card-title">Would you like to customize<br>the group/team names?</h2>
+          
+          <div class="quiz-buttons">
+            <button class="btn-quiz btn-cancel" id="btn-custom-back">Back</button>
+            <button class="btn-quiz btn-no" id="btn-custom-no">No</button>
+            <button class="btn-quiz btn-enter" id="btn-custom-yes">Yes</button>
+          </div>
         </div>
+
+        <!-- Step 3: Enter Custom Names -->
+        <div id="setup-step-3" class="setup-step">
+          <h2 class="quiz-card-title" style="margin-bottom: 12px;">Enter Team Names</h2>
+          
+          <div id="team-names-inputs-container">
+            <!-- Dynamically generated inputs -->
+          </div>
+
+          <div class="quiz-buttons">
+            <button class="btn-quiz btn-cancel" id="btn-names-back">Back</button>
+            <button class="btn-quiz btn-enter" id="btn-names-start">Start Game</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -85,7 +257,7 @@
       <!-- Section 1: Question Details -->
       <div class="modal-question-card">
         <div class="modal-timer-container">
-          <div class="modal-timer" id="modal-timer">20s</div>
+          <div class="modal-timer" id="modal-timer">30s</div>
         </div>
         <h3 class="modal-question-title" id="modal-title">Take A Guess 🧑‍🍳</h3>
         <p class="modal-question-text" id="modal-question">Question goes here...</p>
@@ -102,6 +274,16 @@
         <h4 class="modal-winner-label">choose the winner:</h4>
         <div class="modal-winner-grid" id="modal-winner-grid">
           <!-- Dynamically populated teams list -->
+        </div>
+      </div>
+
+      <!-- Time's Up Overlay -->
+      <div class="times-up-overlay" id="times-up-overlay">
+        <div class="times-up-content">
+          <div class="times-up-title">⏰ TIME'S UP!</div>
+          <div class="times-up-subtitle">Final countdown to answer:</div>
+          <div class="times-up-countdown" id="times-up-countdown">10s</div>
+          <button class="btn-quiz btn-cancel" id="btn-times-up-close" style="margin-top: 24px; min-width: 180px;">Close</button>
         </div>
       </div>
     </div>
@@ -188,15 +370,28 @@
       // Global variables to store group count, team scores, and countdown timer
       window.group = 0;
       window.teamScores = {};
+      window.teamNames = {};
       let timerInterval = null;
+      let secondaryInterval = null;
+      let timerAudio = null;
+      let bgAudio = null;
+      let winnerAudio = null;
 
-      const enterBtn = document.getElementById("btn-enter");
       const input = document.getElementById("group-count-input");
       const scoreboardContainer = document.getElementById("scoreboard-container");
       const scoreboard = document.getElementById("scoreboard");
       
       const gameBoardContainer = document.getElementById("game-board-container");
       const gameGrid = document.getElementById("game-grid");
+
+      // Setup steps button references
+      const btnEnterStep1 = document.getElementById("btn-enter-step1");
+      const btnCustomBack = document.getElementById("btn-custom-back");
+      const btnCustomNo = document.getElementById("btn-custom-no");
+      const btnCustomYes = document.getElementById("btn-custom-yes");
+      const btnNamesBack = document.getElementById("btn-names-back");
+      const btnNamesStart = document.getElementById("btn-names-start");
+      const namesContainer = document.getElementById("team-names-inputs-container");
 
       // Modal elements
       const backdrop = document.getElementById("question-modal-backdrop");
@@ -211,12 +406,12 @@
       // Open Modal handler
       function openModal(category, val, cardItem) {
         const categoryEmojis = {
-          "Foodie": "🧑‍🍳",
+          "Food": "🧑‍🍳",
           "History": "📜",
-          "Movie": "🎬",
+          "Fashion": "👚",
           "Place": "📍",
           "Fun Fact": "💡",
-          "Fashion": "👚",
+          "Movies": "🎬",
           "Sports": "🏆"
         };
         
@@ -232,11 +427,26 @@
         modalAnswerText.style.display = "none";
         btnRevealAnswer.style.display = "block";
 
-        // Reset and start 20s countdown timer
+        // Stop background audio during countdown
+        if (bgAudio) {
+          bgAudio.pause();
+        }
+
+        // Reset and start 30s countdown timer
         clearInterval(timerInterval);
-        let timeLeft = 15;
-        modalTimer.textContent = "15s";
+        if (secondaryInterval) clearInterval(secondaryInterval);
+        document.getElementById("times-up-overlay").classList.remove("visible");
+
+        let timeLeft = 30;
+        modalTimer.textContent = "30s";
         modalTimer.classList.remove("warning");
+
+        // Play countdown audio
+        if (!timerAudio) {
+          timerAudio = new Audio('audio/jeopardy_countdown_audio.mp3');
+        }
+        timerAudio.currentTime = 0;
+        timerAudio.play().catch(e => console.log("Audio play blocked by browser policy until user interacts:", e));
 
         timerInterval = setInterval(() => {
           timeLeft--;
@@ -248,7 +458,29 @@
 
           if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            alert("Times up, give the correct answer");
+            
+            // Stop audio when time is up
+            if (timerAudio) {
+              timerAudio.pause();
+              timerAudio.currentTime = 0;
+            }
+            
+            const timesUpOverlay = document.getElementById("times-up-overlay");
+            const secondTimerEl = document.getElementById("times-up-countdown");
+            timesUpOverlay.classList.add("visible");
+            
+            let secondTimerVal = 10;
+            secondTimerEl.textContent = "10s";
+            
+            if (secondaryInterval) clearInterval(secondaryInterval);
+            secondaryInterval = setInterval(() => {
+              secondTimerVal--;
+              secondTimerEl.textContent = `${secondTimerVal}s`;
+              if (secondTimerVal <= 0) {
+                clearInterval(secondaryInterval);
+                // Do not auto-close or reveal, just stay at 0s
+              }
+            }, 1000);
           }
         }, 1000);
 
@@ -257,7 +489,7 @@
         for (let t = 1; t <= window.group; t++) {
           const btn = document.createElement("button");
           btn.className = "btn-winner-team";
-          btn.textContent = `Team ${t}`;
+          btn.textContent = window.teamNames[t];
           btn.addEventListener("click", () => {
             // Add points to selected team
             window.teamScores[t] += val;
@@ -286,6 +518,19 @@
       function closeModal() {
         backdrop.classList.remove("visible");
         clearInterval(timerInterval);
+        if (secondaryInterval) clearInterval(secondaryInterval);
+        document.getElementById("times-up-overlay").classList.remove("visible");
+        
+        // Stop audio
+        if (timerAudio) {
+          timerAudio.pause();
+          timerAudio.currentTime = 0;
+        }
+
+        // Resume background audio
+        if (bgAudio) {
+          bgAudio.play().catch(e => console.log("Background audio resume blocked:", e));
+        }
       }
 
       // Close modal events
@@ -294,9 +539,24 @@
       // Reveal answer event
       btnRevealAnswer.addEventListener("click", () => {
         clearInterval(timerInterval); // Stop timer on manual reveal
+        if (secondaryInterval) clearInterval(secondaryInterval);
+        document.getElementById("times-up-overlay").classList.remove("visible");
         btnRevealAnswer.style.display = "none";
         modalAnswerText.style.display = "block";
+        
+        // Stop audio
+        if (timerAudio) {
+          timerAudio.pause();
+          timerAudio.currentTime = 0;
+        }
       });
+
+      function showStep(stepNum) {
+        document.querySelectorAll(".setup-step").forEach(step => {
+          step.classList.remove("active");
+        });
+        document.getElementById(`setup-step-${stepNum}`).classList.add("active");
+      }
 
       function processGroupCount() {
         const value = parseInt(input.value, 10);
@@ -305,16 +565,39 @@
           return;
         }
 
-        // 1. Store inside variable "group"
         window.group = value;
+        showStep(2);
+      }
 
-        // 2. Hide setup form with CSS transition
+      function startGame(useCustomNames) {
+        window.teamNames = {};
+        if (useCustomNames) {
+          for (let t = 1; t <= window.group; t++) {
+            const inputEl = document.getElementById(`team-name-input-${t}`);
+            window.teamNames[t] = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : `Team ${t}`;
+          }
+        } else {
+          for (let t = 1; t <= window.group; t++) {
+            window.teamNames[t] = `Team ${t}`;
+          }
+        }
+
+        // Play background audio
+        if (!bgAudio) {
+          bgAudio = new Audio('audio/jeopardy_background_audio.mp3');
+          bgAudio.loop = true;
+          bgAudio.volume = 0.15; // decreased volume
+        }
+        bgAudio.currentTime = 0;
+        bgAudio.play().catch(e => console.log("Background audio play blocked by browser policy:", e));
+
+        // Hide setup form with CSS transition
         setupContainer.classList.add("hidden");
         setTimeout(() => {
           setupContainer.style.display = "none";
         }, 600);
 
-        // 3. Clear and build scoreboard based on dynamic team count
+        // Clear and build scoreboard based on dynamic team count
         scoreboard.innerHTML = "";
         window.teamScores = {};
         
@@ -329,7 +612,7 @@
           const scorePill = document.createElement("div");
           scorePill.className = "score-pill";
           scorePill.innerHTML = `
-            <span class="score-team">Team ${t}</span>
+            <span class="score-team">${window.teamNames[t]}</span>
             <div class="score-divider"></div>
             <span class="score-val" id="team-score-val-${t}">0</span>
             <span class="score-unit">pts</span>
@@ -337,8 +620,8 @@
           scoreboard.appendChild(scorePill);
         }
 
-        // 4. Generate Game Board grid (7 categories x 6 points rows)
-        const categories = ["Foodie", "History", "Movie", "Place", "Fun Fact", "Science", "Sports"];
+        // Generate Game Board grid (7 categories x 6 points rows)
+        const categories = ["Food", "History", "Fashion", "Place", "Fun Fact", "Movies", "Sports"];
         const points = [20, 40, 70, 100, 140, 200];
         
         gameGrid.innerHTML = "";
@@ -402,7 +685,7 @@
         const scoresArray = [];
         for (let t = 1; t <= window.group; t++) {
           scoresArray.push({
-            team: `Team ${t}`,
+            team: window.teamNames[t],
             score: window.teamScores[t]
           });
         }
@@ -446,19 +729,84 @@
         }
         winnerAnnouncement.textContent = announcementText;
 
+        // Stop background audio
+        if (bgAudio) {
+          bgAudio.pause();
+        }
+
+        // Play winner audio
+        if (!winnerAudio) {
+          winnerAudio = new Audio('audio/jeopardy_winner_audio.mp3');
+        }
+        winnerAudio.currentTime = 0;
+        winnerAudio.play().catch(e => console.log("Winner audio play blocked:", e));
+
         // Show the End Game modal
         endGameBackdrop.classList.add("visible");
       });
 
-      // Click event
-      enterBtn.addEventListener("click", processGroupCount);
+      // Setup transitions and listeners
+      btnEnterStep1.addEventListener("click", processGroupCount);
 
-      // Enter keypress listener for the input field
       input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
           processGroupCount();
         }
       });
+
+      btnCustomBack.addEventListener("click", () => {
+        showStep(1);
+        setTimeout(() => input.focus(), 50);
+      });
+
+      btnCustomNo.addEventListener("click", () => {
+        startGame(false);
+      });
+
+      btnCustomYes.addEventListener("click", () => {
+        namesContainer.innerHTML = "";
+        for (let t = 1; t <= window.group; t++) {
+          const groupDiv = document.createElement("div");
+          groupDiv.className = "team-input-group";
+          groupDiv.innerHTML = `
+            <label for="team-name-input-${t}">Team ${t}</label>
+            <input type="text" class="quiz-input team-name" id="team-name-input-${t}" placeholder="Enter name..." value="Team ${t}">
+          `;
+          namesContainer.appendChild(groupDiv);
+        }
+        showStep(3);
+
+        // Auto focus first team input
+        setTimeout(() => {
+          const firstInput = document.getElementById("team-name-input-1");
+          if (firstInput) {
+            firstInput.focus();
+            firstInput.select();
+          }
+        }, 50);
+      });
+
+      btnNamesBack.addEventListener("click", () => {
+        showStep(2);
+      });
+
+      btnNamesStart.addEventListener("click", () => {
+        startGame(true);
+      });
+
+      // Pressing enter in custom name inputs starts the game
+      namesContainer.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && e.target.classList.contains("team-name")) {
+          startGame(true);
+        }
+      });
+
+      // Time's Up overlay close button click listener
+      document.getElementById("btn-times-up-close").addEventListener("click", () => {
+        if (secondaryInterval) clearInterval(secondaryInterval);
+        document.getElementById("times-up-overlay").classList.remove("visible");
+      });
+
     });
   </script>
 </body>

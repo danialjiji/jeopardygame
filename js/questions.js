@@ -1,58 +1,58 @@
 const jeopardyData = {
-  "Foodie": {
-    20: { q: "I'm known for my creamy, fragrant rice and a spicy kick. My side dishes include crunchy peanuts, crispy anchovies, fresh cucumber, and an egg. Many people enjoy me for breakfast, but I'm delicious any time of the day. What am I?", a: "Nasi Lemak" },
-    40: { q: "I am a round Italian dish with tomatoes, cheese, and various toppings. What am I?", a: "Pizza" },
-    80: { q: "I am a Japanese dish consisting of vinegared rice combined with raw seafood and vegetables. What am I?", a: "Sushi" },
-    120: { q: "Originating in Mexico, I consist of a folded or rolled tortilla filled with meats, cheese, and salsa. What am I?", a: "Taco" },
-    160: { q: "I am a cold, sweet dessert made from cream, sugar, and various flavorings, often served in a cone. What am I?", a: "Ice Cream" },
-    200: { q: "I am a French pastry made of layers of puff pastry and pastry cream, topped with icing. What am I?", a: "Mille-feuille" }
+  "Food": {
+    20: { q: "This Malaysian dish is often eaten for breakfast and consists of fragrant rice cooked with coconut milk. It is commonly served with spicy sambal, fried anchovies, peanuts, cucumber, and sometimes a boiled or fried egg. Although it can be found throughout Malaysia, it is strongly associated with Malay cuisine.", a: "What is Nasi Lemak?" },
+    40: { q: "This famous Sarawak dish is a type of noodle soup that combines a rich, spicy and creamy broth with ingredients such as rice vermicelli, shredded chicken, prawns, and bean sprouts. Although it shares the word \"laksa\" with other Malaysian dishes, its flavour and preparation are distinctly associated with Sarawak.", a: "What is Sarawak Laksa?" },
+    70: { q: "This noodle dish is commonly served with thin, springy egg noodles tossed in a dark savoury sauce. It is often accompanied by slices of char siu, leafy vegetables, and dumplings filled with seasoned meat. Unlike soup noodles, the dry version is usually served with only a small amount of sauce coating the noodles.", a: "What is Wantan Mee?" },
+    100: { q: "This dish is strongly associated with Kelantan and is known for its blue-coloured rice, which gets its distinctive colour from butterfly pea flowers. It is commonly served with fish, herbs, vegetables, budu, and other accompaniments that create a combination of sweet, salty, and savoury flavours.", a: "What is Nasi Kerabu?" },
+    140: { q: "This traditional South Indian snack is made by shaping spiced lentil batter into a ring before deep-frying it until golden and crispy on the outside. It is commonly served with coconut chutney or sambal and is often eaten during breakfast or tea time.", a: "What is Vadai / Medu Vada?" },
+    200: { q: "This traditional Hakka dish is commonly associated with Malaysian Chinese communities and involves tofu that is either stuffed or served together with ingredients such as fish paste, meat, vegetables, and a savoury broth. It is especially associated with the town of Ampang and is often served as a collection of different stuffed ingredients rather than as a single dish.", a: "What is Yong Tau Foo?" }
   },
   "History": {
-    20: { q: "Who was the first President of the United States?", a: "George Washington" },
-    40: { q: "Which ancient civilization built the Great Pyramid of Giza?", a: "The Ancient Egyptians" },
-    80: { q: "In which year did the Titanic sink in the North Atlantic Ocean?", a: "1912" },
-    120: { q: "Who was the famous Queen of Ancient Egypt who allied with Julius Caesar?", a: "Cleopatra" },
-    160: { q: "Which explorer led the first expedition to sail around the world?", a: "Ferdinand Magellan" },
-    200: { q: "The Magna Carta was signed by which King of England in 1215?", a: "King John" }
+    20: { q: "This iconic phrase was repeatedly shouted by Tunku Abdul Rahman during the historic declaration of independence at Stadium Merdeka in 1957. It has since become one of the most recognizable expressions associated with Malaysian independence and patriotism.", a: "What is \"Merdeka\"?" },
+    40: { q: "He was a prominent Malaysian political leader who played a major role in negotiating independence from the British. He became the first Prime Minister of the Federation of Malaya and is widely remembered by the title \"Bapa Kemerdekaan\" or \"Father of Independence.\"", a: "Who is Tunku Abdul Rahman?" },
+    70: { q: "This famous historical figure founded the Malacca Sultanate around the beginning of the 15th century after arriving in the area that would later become an important centre of trade. He is also associated with the development of Melaka as a major regional trading port.", a: "Who is Parameswara?" },
+    100: { q: "Before Malaysia was formed in 1963, the country existed as the Federation of Malaya. The federation achieved independence from British colonial rule in this year, several years before Sabah and Sarawak joined to form Malaysia.", a: "What is 1957?" },
+    140: { q: "This legendary warrior is closely associated with the Malacca Sultanate and is traditionally described as a loyal warrior serving the Sultan. He is especially famous for the phrase associated with his unwavering loyalty to the ruler, although historians continue to debate how much of his story is historical fact versus legend.", a: "Who is Hang Tuah?" },
+    200: { q: "This agreement was an important legal document involved in the establishment of Malaysia. It involved the United Kingdom, the Federation of Malaya, North Borneo, Sarawak, and Singapore, and included arrangements concerning constitutional matters and safeguards for the territories joining the new federation. Malaysia was subsequently established on 16 September 1963.", a: "What is the Malaysia Agreement 1963 (MA63)?" }
   },
-  "Movie": {
-    20: { q: "Which movie series features the quote, 'May the Force be with you'?", a: "Star Wars" },
-    40: { q: "What is the name of the green ogre who lives in a swamp and has a talking donkey companion?", a: "Shrek" },
-    80: { q: "Who played the character of Jack Dawson in the 1997 movie Titanic?", a: "Leonardo DiCaprio" },
-    120: { q: "Which animated Disney film features the song 'Hakuna Matata'?", a: "The Lion King" },
-    160: { q: "In the Marvel Cinematic Universe, what is the name of Thor's magical hammer?", a: "Mjolnir" },
-    200: { q: "What was the first feature-length computer-animated film released in 1995?", a: "Toy Story" }
+  "Fashion": {
+    20: { q: "This style became especially popular among younger generations and is known for clothing with a relaxed, loose, and oversized fit. Instead of tight-fitting jeans or shirts, the style often uses wide-leg pants, oversized T-shirts, hoodies, and loose jackets to create a casual appearance.", a: "What is Baggy Style?" },
+    40: { q: "This fashion trend became popular again among younger generations by bringing back clothing and aesthetics inspired by the late 1990s and early 2000s. Common elements include low-rise jeans, crop tops, mini skirts, colourful accessories, and chunky shoes.", a: "What is Y2K Fashion?" },
+    70: { q: "This style is strongly influenced by hip-hop, skateboarding, sneakers, and youth culture. It commonly features oversized T-shirts, hoodies, cargo pants, sneakers, caps, and graphic designs, while mixing casual clothing with elements from popular culture.", a: "What is Streetwear?" },
+    100: { q: "This trend combines athletic clothing with everyday casual fashion, allowing items such as leggings, sneakers, tracksuits, sports jackets, and oversized sweatshirts to be worn outside of exercise or sports activities.", a: "What is Athleisure?" },
+    140: { q: "This fashion aesthetic is inspired by a romantic and feminine appearance, often featuring ribbons, bows, lace, pastel colours, skirts, dresses, ballet-inspired shoes, and delicate accessories. It became particularly popular through social media and is often associated with a soft and dreamy appearance.", a: "What is Coquette Style?" },
+    200: { q: "This fashion aesthetic focuses on creating an elegant and wealthy-looking appearance without relying heavily on visible logos or flashy designs. Neutral colours, well-tailored clothing, polo shirts, knitwear, loafers, and simple accessories are commonly associated with this style", a: "What is Old Money Style?" }
   },
   "Place": {
-    20: { q: "What is the capital city of France?", a: "Paris" },
-    40: { q: "Which country is home to the famous city of Sydney and the Great Barrier Reef?", a: "Australia" },
-    80: { q: "What is the tallest mountain in the world?", a: "Mount Everest" },
-    120: { q: "Which river is the longest in the world, running through Egypt?", a: "The Nile River" },
-    160: { q: "What is the name of the active volcano that overlooks the city of Naples in Italy?", a: "Mount Vesuvius" },
-    200: { q: "Which South American country has the largest area and population?", a: "Brazil" }
+    20: { q: "Located in the centre of Kuala Lumpur, this famous landmark consists of two identical skyscrapers connected by a skybridge. The towers were designed with Islamic-inspired geometric elements and became one of the most recognizable symbols of Malaysia.", a: "What are the Petronas Twin Towers / KLCC?" },
+    40: { q: "Located in the historical city of Melaka, this attraction rises high above the surrounding buildings and provides visitors with a panoramic view of the city. Its observation deck rotates slowly while visitors remain seated, allowing them to see different parts of Melaka without moving around the tower.", a: "What is Menara Taming Sari?" },
+    70: { q: "This Malaysian highland destination is located in Pahang and is famous for its cool climate, tea plantations, strawberry farms, and scenic mountain landscapes. It is also one of Malaysia's most popular destinations for escaping the country's hot and humid lowland weather.", a: "What is Cameron Highlands?" },
+    100: { q: "This historical location in the heart of Kuala Lumpur is a large open field surrounded by several colonial-era buildings. It is strongly connected to Malaysia's history because the Malayan flag was raised here for the first time after independence was declared in 1957.", a: "What is Dataran Merdeka?" },
+    140: { q: "Located in Pahang at a high elevation, this destination is known for its cool climate, hotels, entertainment facilities, and scenic mountain environment. It is also home to one of Malaysia's most well-known integrated resort developments and can be reached by travelling through the Genting Highlands area.", a: "What is Genting Highlands?" },
+    200: { q: "This Malaysian cave system is located in Gunung Mulu National Park in Sarawak and is recognised as a UNESCO World Heritage Site. The park is famous for its enormous limestone formations, extensive cave networks, and one of the world's largest known cave chambers.", a: "What is Gunung Mulu National Park?" }
   },
   "Fun Fact": {
-    20: { q: "How many legs does a spider have?", a: "Eight" },
-    40: { q: "What is the only mammal capable of true flight?", a: "Bat" },
-    80: { q: "Which organ in the human body is responsible for pumping blood?", a: "Heart" },
-    120: { q: "What color is a banana before it ripens?", a: "Green" },
-    160: { q: "How many days are in a leap year?", a: "366" },
-    200: { q: "What is the largest species of shark alive today?", a: "Whale Shark" }
+    20: { q: "This viral expression consists of two numbers and became popular among Gen Alpha users in 2025. It is intentionally vague and is often used randomly or as an inside joke rather than having one specific meaning.", a: "What is “6–7”?" },
+    40: { q: "This phrase became widely recognized through the viral Ramadan trend involving a mysterious character carrying a baseball bat and waking people up for sahur. The trend spread rapidly across TikTok and other social media platforms, with people creating their own versions and memes around it.", a: "What is Tung Tung Tung Sahur?" },
+    70: { q: "This Malaysian convenience store chain became particularly popular among younger Malaysians because of its affordable snacks, drinks, onigiri, desserts, and ready-to-eat food. Its distinctive orange branding can be seen in many locations across the country.", a: "What is FamilyMart?" },
+    100: { q: "This hobby became increasingly popular among young Malaysians because it combines collecting with an element of surprise. Buyers purchase sealed packages without knowing which design they will receive, making rare editions highly sought after.", a: "What is Blind Box?" },
+    140: { q: "This Malaysian internet personality became widely recognized through humorous online content and catchphrases that were repeatedly shared across social media. His content became part of Malaysian internet culture, with people frequently using his expressions and mannerisms as memes and references in everyday conversations.", a: "Who is Khairul Aming?" },
+    200: { q: "This multiplayer online battle arena (MOBA) game was developed by Moonton and has become one of the most popular mobile esports titles in Southeast Asia. Two teams of five players compete to destroy the opposing team's base while controlling heroes with unique abilities. In Malaysia, the game has its own professional league, and local teams regularly compete in international tournaments such as the Mid Season Cup (MSC) and the M World Championship.", a: "What is Mobile Legends: Bang Bang?" }
   },
-  "Science": {
-    20: { q: "What is the chemical formula for water?", a: "H2O" },
-    40: { q: "Which planet in our solar system is known as the 'Red Planet'?", a: "Mars" },
-    80: { q: "What force pulls objects toward the center of the Earth?", a: "Gravity" },
-    120: { q: "What is the primary gas found in the Earth's atmosphere?", a: "Nitrogen" },
-    160: { q: "What is the speed of light in a vacuum (approximate)?", a: "299,792 kilometers per second" },
-    200: { q: "What is the powerhouse of the cell?", a: "Mitochondria" }
+  "Movies": {
+    20: { q: "This Malaysian animated movie follows a young boy who accidentally becomes a secret agent after being recruited into a high-tech intelligence organization. Equipped with advanced technology and trained by the organization, he must learn to work with other agents while dealing with missions that put him in dangerous situations.", a: "What is Ejen Ali?" },
+    40: { q: "This Malaysian horror movie follows a religious healer who is struggling with his own personal problems while becoming involved in a disturbing supernatural case. The movie became one of the most successful Malaysian horror films and later received a sequel.", a: "What is Munafik?" },
+    70: { q: "This Malaysian comedy film follows a group of friends who become involved in various humorous situations while trying to deal with friendship, relationships, and everyday life. The movie became popular for its memorable characters and Malaysian-style humour.", a: "What is Polis Evo?" },
+    100: { q: "This international superhero movie introduces a technologically advanced African kingdom that is hidden from the rest of the world. Its ruler must protect his country while facing an enemy who challenges both his position as king and his beliefs about the nation's future.", a: "What is Black Panther?" },
+    140: { q: "This movie follows a group of teenagers who discover a mysterious upside-down world filled with dangerous creatures. The story became a major international hit and is strongly associated with the 1980s setting and the character Eleven.", a: "What is Stranger Things?" },
+    200: { q: "This Malaysian action film is inspired by the real-life operations and experiences of the Royal Malaysian Navy's elite special forces unit. The story follows a highly trained team carrying out dangerous missions involving piracy, hostage situations, and international threats. The film also highlights the challenges faced by members of the unit as they balance their responsibilities as soldiers with their personal lives and families. What is the name of this movie?", a: "What is Paskal: The Movie?" }
   },
   "Sports": {
-    20: { q: "How many players are on the field for one team in a soccer match?", a: "Eleven" },
-    40: { q: "Which sport is played at Wimbledon?", a: "Tennis" },
-    80: { q: "What is the diameter of a basketball hoop in inches?", a: "18 inches" },
-    120: { q: "How many rings are on the Olympic flag?", a: "Five" },
-    160: { q: "Which country has won the most FIFA World Cups?", a: "Brazil" },
-    200: { q: "In golf, what term describes scoring one stroke under par on a hole?", a: "Birdie" }
+    20: { q: "This Malaysian badminton player became one of the country's most celebrated athletes after winning three Olympic silver medals in men's singles. He also spent many years ranked among the world's top badminton players.", a: "Who is Lee Chong Wei?" },
+    40: { q: "Known as the “Ratu Squash Negara,” this Malaysian athlete dominated women's squash for many years and became the world's number-one ranked female squash player. She also won multiple World Open titles and Commonwealth Games gold medals.", a: "Who is Nicol David?" },
+    70: { q: "This Malaysian men's doubles pair achieved a historic victory at the 2022 BWF World Championships. After defeating Indonesian pair Mohammad Ahsan and Hendra Setiawan in the final, they became the first Malaysian men's doubles pair to win the World Championships title", a: "Who are Aaron Chia and Soh Wooi Yik?" },
+    100: { q: "This Malaysian Formula One driver became the first Malaysian to compete in Formula One. He raced for the Minardi team during the 2002 season and later became involved in motorsport development and driver coaching.", a: "Who is Alex Yoong?" },
+    140: { q: "This Malaysian cyclist made history by winning a gold medal at the 2016 Rio Olympics in the men's keirin event. His victory made him one of Malaysia's most successful Olympic cyclists and ended the country's long wait for an Olympic gold medal.", a: "Who is Azizulhasni Awang?" },
+    200: { q: "This Malaysian diver partnered with Pandelela Rinong to win a silver medal in the women's synchronised 10-metre platform at the 2016 Rio Olympics. Four years later, she became the first Malaysian female diver to win an individual world championship title in the 10-metre platform event.", a: "Who is Cheong Jun Hoong?" }
   }
 };
