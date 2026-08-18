@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,11 +19,13 @@
       justify-content: center;
       transition: opacity 0.6s var(--transition-bezier), transform 0.6s var(--transition-bezier);
     }
+
     #setup-container.hidden {
       opacity: 0;
       transform: translate(-50%, -60%) scale(0.9);
       pointer-events: none;
     }
+
     .setup-step {
       display: none;
       width: 100%;
@@ -30,20 +33,24 @@
       align-items: center;
       justify-content: center;
     }
+
     .setup-step.active {
       display: flex;
       animation: setupFadeIn 0.4s var(--transition-bezier);
     }
+
     @keyframes setupFadeIn {
       from {
         opacity: 0;
         transform: translateY(10px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
+
     #team-names-inputs-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -55,21 +62,26 @@
       margin-bottom: 24px;
       box-sizing: border-box;
     }
+
     /* Custom scrollbar for names container */
     #team-names-inputs-container::-webkit-scrollbar {
       width: 6px;
     }
+
     #team-names-inputs-container::-webkit-scrollbar-track {
       background: rgba(0, 0, 0, 0.05);
       border-radius: 10px;
     }
+
     #team-names-inputs-container::-webkit-scrollbar-thumb {
       background: rgba(76, 63, 61, 0.3);
       border-radius: 10px;
     }
+
     #team-names-inputs-container::-webkit-scrollbar-thumb:hover {
       background: rgba(76, 63, 61, 0.5);
     }
+
     .team-input-group {
       display: flex;
       flex-direction: column;
@@ -77,6 +89,7 @@
       gap: 6px;
       width: 100%;
     }
+
     .team-input-group label {
       font-size: 0.85rem;
       font-weight: 700;
@@ -84,20 +97,24 @@
       text-transform: uppercase;
       margin-left: 8px;
     }
+
     .team-input-group .quiz-input {
       padding: 10px 16px;
       font-size: 1rem;
       text-align: left;
       border-radius: 16px;
     }
+
     .btn-no {
       background-color: #b5a387;
     }
+
     .btn-no:hover {
       background-color: #c4b296;
       transform: translateY(-3px);
       box-shadow: 0 10px 20px rgba(181, 163, 135, 0.3);
     }
+
     /* Time's Up Overlay inside Modal */
     .times-up-overlay {
       position: absolute;
@@ -116,10 +133,12 @@
       pointer-events: none;
       transition: opacity 0.4s var(--transition-bezier);
     }
+
     .times-up-overlay.visible {
       opacity: 1;
       pointer-events: auto;
     }
+
     .times-up-content {
       text-align: center;
       display: flex;
@@ -127,6 +146,7 @@
       align-items: center;
       padding: 30px;
     }
+
     .times-up-title {
       font-family: 'Outfit', sans-serif;
       font-size: clamp(2rem, 6vw, 3rem);
@@ -138,10 +158,17 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+
     @keyframes pulse-title {
-      from { transform: scale(0.96); }
-      to { transform: scale(1.04); }
+      from {
+        transform: scale(0.96);
+      }
+
+      to {
+        transform: scale(1.04);
+      }
     }
+
     .times-up-subtitle {
       font-family: 'Outfit', sans-serif;
       font-size: clamp(1rem, 3vw, 1.25rem);
@@ -151,6 +178,7 @@
       text-transform: uppercase;
       letter-spacing: 0.02em;
     }
+
     .times-up-countdown {
       font-family: 'Outfit', sans-serif;
       font-size: clamp(3.5rem, 10vw, 5rem);
@@ -160,13 +188,43 @@
       border: 5px solid #ffd54f;
       padding: 10px 48px;
       border-radius: 24px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25), 
-                  0 0 20px rgba(255, 213, 79, 0.2);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25),
+        0 0 20px rgba(255, 213, 79, 0.2);
       text-shadow: 2px 2px 0px #4a0d0d;
       position: relative;
     }
+
+    .score-team {
+      cursor: pointer;
+      border-bottom: 1px dashed transparent;
+      transition: border-color 0.2s ease;
+    }
+
+    .score-pill:hover .score-team {
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.6);
+    }
+
+    .score-team-input {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
+      padding: 2px 8px;
+      width: 100px;
+      outline: none;
+      text-align: center;
+    }
+
+    .score-team-input:focus {
+      background: rgba(255, 255, 255, 0.35);
+      border-color: #ffd54f;
+    }
   </style>
 </head>
+
 <body class="quiz-page">
 
   <!-- Ambient background glow elements -->
@@ -177,14 +235,14 @@
   <div class="quiz-board-header aesthetic-header-card" id="quiz-board-header" style="display: none;">
     <h2 class="section-title quiz-title">Jeopardy Quiz Board</h2>
   </div>
-  
+
   <!-- Scoreboard Container -->
   <div class="scoreboard-container" id="scoreboard-container" style="display: none;">
     <div class="scoreboard" id="scoreboard"></div>
   </div>
 
   <!-- Quiz Header -->
-  
+
 
   <!-- Game Board Container -->
   <div class="game-board-container" id="game-board-container" style="display: none;">
@@ -205,13 +263,14 @@
   <div id="setup-container">
     <div class="quiz-card" id="quiz-card">
       <div class="quiz-card-inner">
-        
+
         <!-- Step 1: Group Count -->
         <div id="setup-step-1" class="setup-step active">
           <h2 class="quiz-card-title">How many groups/teams<br>will play this game?</h2>
-          
+
           <div class="quiz-card-input-wrapper">
-            <input type="number" min="1" max="35" placeholder="Enter number..." class="quiz-input" id="group-count-input" autofocus>
+            <input type="number" min="1" max="35" placeholder="Enter number..." class="quiz-input"
+              id="group-count-input" autofocus>
           </div>
 
           <div class="quiz-buttons">
@@ -220,21 +279,10 @@
           </div>
         </div>
 
-        <!-- Step 2: Custom Names Confirmation -->
+        <!-- Step 2: Edit Team Names -->
         <div id="setup-step-2" class="setup-step">
-          <h2 class="quiz-card-title">Would you like to customize<br>the group/team names?</h2>
-          
-          <div class="quiz-buttons">
-            <button class="btn-quiz btn-cancel" id="btn-custom-back">Back</button>
-            <button class="btn-quiz btn-no" id="btn-custom-no">No</button>
-            <button class="btn-quiz btn-enter" id="btn-custom-yes">Yes</button>
-          </div>
-        </div>
+          <h2 class="quiz-card-title" style="margin-bottom: 12px;">Edit Team Names</h2>
 
-        <!-- Step 3: Enter Custom Names -->
-        <div id="setup-step-3" class="setup-step">
-          <h2 class="quiz-card-title" style="margin-bottom: 12px;">Enter Team Names</h2>
-          
           <div id="team-names-inputs-container">
             <!-- Dynamically generated inputs -->
           </div>
@@ -253,7 +301,7 @@
   <div class="modal-backdrop" id="question-modal-backdrop">
     <div class="question-modal" id="question-modal">
       <button class="modal-close-btn" id="modal-close-btn">&times;</button>
-      
+
       <!-- Section 1: Question Details -->
       <div class="modal-question-card">
         <div class="modal-timer-container">
@@ -283,7 +331,8 @@
           <div class="times-up-title">⏰ TIME'S UP!</div>
           <div class="times-up-subtitle">Final countdown to answer:</div>
           <div class="times-up-countdown" id="times-up-countdown">10s</div>
-          <button class="btn-quiz btn-cancel" id="btn-times-up-close" style="margin-top: 24px; min-width: 180px;">Close</button>
+          <button class="btn-quiz btn-cancel" id="btn-times-up-close"
+            style="margin-top: 24px; min-width: 180px;">Close</button>
         </div>
       </div>
     </div>
@@ -341,7 +390,7 @@
       function createLight(xPercent, yPercent) {
         const light = document.createElement("div");
         light.className = "border-light";
-        
+
         let leftStyle = "";
         let topStyle = "";
 
@@ -363,7 +412,7 @@
 
         light.style.left = leftStyle;
         light.style.top = topStyle;
-        
+
         card.appendChild(light);
       }
 
@@ -380,15 +429,23 @@
       const input = document.getElementById("group-count-input");
       const scoreboardContainer = document.getElementById("scoreboard-container");
       const scoreboard = document.getElementById("scoreboard");
-      
+
       const gameBoardContainer = document.getElementById("game-board-container");
       const gameGrid = document.getElementById("game-grid");
 
-      // Setup steps button references
+      // Preset team names list (Famous luxury/fashion/lifestyle brands)
+      const PRESET_TEAM_NAMES = [
+        "Armani", "Balenciaga", "Bottega", "Burberry", "Carolina Herrera",
+        "Cavalli", "Celine", "Chanel", "Dior", "DKNY", 
+        "Elie Saab", "Fendi", "Ferragamo", "Gaultier", "Givenchy", 
+        "Gucci", "Jimmy Choo", "Karl Lagerfeld", "Kenzo", "Loewe", 
+        "Marc Jacobs", "McQueen", "Melinda Looi", "Michael Kors", "Mugler", 
+        "Prada", "Ralph Lauren", "Rizalman", "Saint Laurent", "Schiaparelli", 
+        "Stella McCartney", "Tom Ford", "Valentino", "Versace", "Westwood"
+      ];
+
+      // Setup button reference
       const btnEnterStep1 = document.getElementById("btn-enter-step1");
-      const btnCustomBack = document.getElementById("btn-custom-back");
-      const btnCustomNo = document.getElementById("btn-custom-no");
-      const btnCustomYes = document.getElementById("btn-custom-yes");
       const btnNamesBack = document.getElementById("btn-names-back");
       const btnNamesStart = document.getElementById("btn-names-start");
       const namesContainer = document.getElementById("team-names-inputs-container");
@@ -414,10 +471,10 @@
           "Movies": "🎬",
           "Sports": "🏆"
         };
-        
+
         const emoji = categoryEmojis[category] || "❓";
         modalTitle.textContent = `Take A Guess ${emoji}`;
-        
+
         // Find question
         const qData = jeopardyData[category]?.[val] || { q: "No question configured for this category.", a: "No answer found." };
         modalQuestion.textContent = qData.q;
@@ -458,20 +515,20 @@
 
           if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            
+
             // Stop audio when time is up
             if (timerAudio) {
               timerAudio.pause();
               timerAudio.currentTime = 0;
             }
-            
+
             const timesUpOverlay = document.getElementById("times-up-overlay");
             const secondTimerEl = document.getElementById("times-up-countdown");
             timesUpOverlay.classList.add("visible");
-            
+
             let secondTimerVal = 10;
             secondTimerEl.textContent = "10s";
-            
+
             if (secondaryInterval) clearInterval(secondaryInterval);
             secondaryInterval = setInterval(() => {
               secondTimerVal--;
@@ -494,7 +551,7 @@
             // Add points to selected team
             window.teamScores[t] += val;
             document.getElementById(`team-score-val-${t}`).textContent = window.teamScores[t];
-            
+
             // Fade out point card
             cardItem.classList.add("played");
             closeModal();
@@ -520,7 +577,7 @@
         clearInterval(timerInterval);
         if (secondaryInterval) clearInterval(secondaryInterval);
         document.getElementById("times-up-overlay").classList.remove("visible");
-        
+
         // Stop audio
         if (timerAudio) {
           timerAudio.pause();
@@ -535,7 +592,7 @@
 
       // Close modal events
       closeBtn.addEventListener("click", closeModal);
-      
+
       // Reveal answer event
       btnRevealAnswer.addEventListener("click", () => {
         clearInterval(timerInterval); // Stop timer on manual reveal
@@ -543,7 +600,7 @@
         document.getElementById("times-up-overlay").classList.remove("visible");
         btnRevealAnswer.style.display = "none";
         modalAnswerText.style.display = "block";
-        
+
         // Stop audio
         if (timerAudio) {
           timerAudio.pause();
@@ -566,20 +623,37 @@
         }
 
         window.group = value;
+
+        // Populate the team name inputs dynamically
+        namesContainer.innerHTML = "";
+        for (let t = 1; t <= window.group; t++) {
+          const groupDiv = document.createElement("div");
+          groupDiv.className = "team-input-group";
+          const defaultName = PRESET_TEAM_NAMES[t - 1] || `Team ${t}`;
+          groupDiv.innerHTML = `
+            <label for="team-name-input-${t}">Team ${t}</label>
+            <input type="text" class="quiz-input team-name" id="team-name-input-${t}" placeholder="Enter name..." value="${defaultName}">
+          `;
+          namesContainer.appendChild(groupDiv);
+        }
+
         showStep(2);
+
+        // Auto focus first team input
+        setTimeout(() => {
+          const firstInput = document.getElementById("team-name-input-1");
+          if (firstInput) {
+            firstInput.focus();
+            firstInput.select();
+          }
+        }, 50);
       }
 
-      function startGame(useCustomNames) {
+      function startGame() {
         window.teamNames = {};
-        if (useCustomNames) {
-          for (let t = 1; t <= window.group; t++) {
-            const inputEl = document.getElementById(`team-name-input-${t}`);
-            window.teamNames[t] = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : `Team ${t}`;
-          }
-        } else {
-          for (let t = 1; t <= window.group; t++) {
-            window.teamNames[t] = `Team ${t}`;
-          }
+        for (let t = 1; t <= window.group; t++) {
+          const inputEl = document.getElementById(`team-name-input-${t}`);
+          window.teamNames[t] = (inputEl && inputEl.value.trim()) ? inputEl.value.trim() : (PRESET_TEAM_NAMES[t - 1] || `Team ${t}`);
         }
 
         // Play background audio
@@ -600,7 +674,7 @@
         // Clear and build scoreboard based on dynamic team count
         scoreboard.innerHTML = "";
         window.teamScores = {};
-        
+
         if (window.group > 12) {
           scoreboard.classList.add("compact");
         } else {
@@ -612,18 +686,47 @@
           const scorePill = document.createElement("div");
           scorePill.className = "score-pill";
           scorePill.innerHTML = `
-            <span class="score-team">${window.teamNames[t]}</span>
+            <span class="score-team" title="Click to edit team name">${window.teamNames[t]}</span>
             <div class="score-divider"></div>
             <span class="score-val" id="team-score-val-${t}">0</span>
             <span class="score-unit">pts</span>
           `;
           scoreboard.appendChild(scorePill);
+
+          // Add inline editing for the team name
+          const teamSpan = scorePill.querySelector(`.score-team`);
+          teamSpan.addEventListener("click", () => {
+            const currentName = window.teamNames[t];
+            const nameInput = document.createElement("input");
+            nameInput.type = "text";
+            nameInput.className = "score-team-input";
+            nameInput.value = currentName;
+
+            // Swap span with input
+            teamSpan.replaceWith(nameInput);
+            nameInput.focus();
+            nameInput.select();
+
+            const saveName = () => {
+              const newName = nameInput.value.trim() || currentName;
+              window.teamNames[t] = newName;
+              teamSpan.textContent = newName;
+              nameInput.replaceWith(teamSpan);
+            };
+
+            nameInput.addEventListener("blur", saveName);
+            nameInput.addEventListener("keydown", (e) => {
+              if (e.key === "Enter") {
+                saveName();
+              }
+            });
+          });
         }
 
         // Generate Game Board grid (7 categories x 6 points rows)
         const categories = ["Food", "History", "Fashion", "Place", "Fun Fact", "Movies", "Sports"];
         const points = [20, 40, 70, 100, 140, 200];
-        
+
         gameGrid.innerHTML = "";
 
         // First row: Categories header
@@ -641,7 +744,7 @@
             const cardItem = document.createElement("div");
             cardItem.className = `point-card row-${rowIndex + 1}`;
             cardItem.textContent = val;
-            
+
             // Open question modal when clicked
             cardItem.addEventListener("click", () => {
               if (!cardItem.classList.contains("played")) {
@@ -722,7 +825,7 @@
         let announcementText = "";
 
         if (winners.length === 1) {
-          announcementText = `🎉 The Winner is ${winners[0].team}! 🎉`;
+          announcementText = `🎉 The Winner is Team ${winners[0].team}! 🎉`;
         } else {
           const winnerNames = winners.map(w => w.team).join(", ");
           announcementText = `🎉 It's a Tie! Winners: ${winnerNames} 🎉`;
@@ -754,52 +857,22 @@
         }
       });
 
-      btnCustomBack.addEventListener("click", () => {
+      btnNamesBack.addEventListener("click", () => {
         showStep(1);
         setTimeout(() => input.focus(), 50);
       });
 
-      btnCustomNo.addEventListener("click", () => {
-        startGame(false);
-      });
-
-      btnCustomYes.addEventListener("click", () => {
-        namesContainer.innerHTML = "";
-        for (let t = 1; t <= window.group; t++) {
-          const groupDiv = document.createElement("div");
-          groupDiv.className = "team-input-group";
-          groupDiv.innerHTML = `
-            <label for="team-name-input-${t}">Team ${t}</label>
-            <input type="text" class="quiz-input team-name" id="team-name-input-${t}" placeholder="Enter name..." value="Team ${t}">
-          `;
-          namesContainer.appendChild(groupDiv);
-        }
-        showStep(3);
-
-        // Auto focus first team input
-        setTimeout(() => {
-          const firstInput = document.getElementById("team-name-input-1");
-          if (firstInput) {
-            firstInput.focus();
-            firstInput.select();
-          }
-        }, 50);
-      });
-
-      btnNamesBack.addEventListener("click", () => {
-        showStep(2);
-      });
-
       btnNamesStart.addEventListener("click", () => {
-        startGame(true);
+        startGame();
       });
 
       // Pressing enter in custom name inputs starts the game
       namesContainer.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && e.target.classList.contains("team-name")) {
-          startGame(true);
+          startGame();
         }
       });
+
 
       // Time's Up overlay close button click listener
       document.getElementById("btn-times-up-close").addEventListener("click", () => {
@@ -810,4 +883,5 @@
     });
   </script>
 </body>
+
 </html>

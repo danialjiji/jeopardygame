@@ -1112,11 +1112,10 @@ body.quiz-page {
 }
 
 .modal-winner-grid {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  /* 8 columns side-by-side */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
-  /* tighter gap for clean fit */
 }
 
 .btn-winner-team {
@@ -1152,18 +1151,7 @@ body.quiz-page {
   box-shadow: 0 4px 10px rgba(181, 141, 122, 0.35);
 }
 
-/* Responsive Winner Grid */
-@media (max-width: 750px) {
-  .modal-winner-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-@media (max-width: 550px) {
-  .modal-winner-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+/* Responsive Winner Grid is handled automatically by flex wrap */
 
 /* Countdown Timer styles */
 .modal-timer-container {
@@ -1288,7 +1276,7 @@ body.quiz-page {
 .end-game-modal {
   position: relative;
   width: 95%;
-  max-width: 950px;
+  max-width: 1350px;
   /* wider card to accommodate side-by-side columns */
   background-color: #8da7df;
   border-radius: 28px;
@@ -1345,15 +1333,22 @@ body.quiz-page {
 .leaderboard-list {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   /* side-by-side columns */
   gap: 12px;
   max-height: 380px;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 6px;
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+@media (min-width: 900px) {
+  .leaderboard-list {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 
 .leaderboard-list::-webkit-scrollbar {
@@ -1371,7 +1366,7 @@ body.quiz-page {
   justify-content: space-between;
   background-color: #fbf8e9;
   border-radius: 16px;
-  padding: 10px 16px;
+  padding: 10px 12px;
   /* more compact padding */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
@@ -1386,7 +1381,7 @@ body.quiz-page {
   background-color: #fffdec;
   border: 2.5px solid #dba955;
   box-shadow: 0 6px 16px rgba(219, 169, 85, 0.25);
-  padding: 16px 20px;
+  padding: 12px 14px;
   transform: scale(1.05);
   z-index: 2;
 }
@@ -1399,7 +1394,7 @@ body.quiz-page {
   background-color: #f7fafc;
   border: 2px solid #b0c4de;
   box-shadow: 0 4px 12px rgba(176, 196, 222, 0.2);
-  padding: 14px 18px;
+  padding: 10px 12px;
   transform: scale(1.02);
   z-index: 1;
 }
@@ -1412,7 +1407,7 @@ body.quiz-page {
   background-color: #faf5f0;
   border: 2px solid #cd7f32;
   box-shadow: 0 4px 12px rgba(205, 127, 50, 0.15);
-  padding: 14px 18px;
+  padding: 10px 12px;
   transform: scale(1.01);
   z-index: 1;
 }
@@ -1456,18 +1451,28 @@ body.quiz-page {
   color: #e26156;
   min-width: 30px;
   text-align: left;
+  flex-shrink: 0;
 }
 
 .rank-team {
   font-weight: 700;
   font-size: 0.95rem;
   color: #333333;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 6px;
+  text-align: left;
 }
 
 .rank-score {
   font-weight: 800;
   font-size: 1.05rem;
   color: #5199bb;
+  flex-shrink: 0;
+  text-align: right;
 }
 
 .rank-score .score-unit {
