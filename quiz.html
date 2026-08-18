@@ -194,6 +194,28 @@
       position: relative;
     }
 
+    .btn-times-up-wrong {
+      background-color: #e26156;
+      min-width: 140px;
+    }
+
+    .btn-times-up-wrong:hover {
+      background-color: #f17267;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(226, 97, 86, 0.3);
+    }
+
+    .btn-times-up-correct {
+      background-color: #5bb381;
+      min-width: 140px;
+    }
+
+    .btn-times-up-correct:hover {
+      background-color: #6cbf91;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(91, 179, 129, 0.3);
+    }
+
     .score-team {
       cursor: pointer;
       border-bottom: 1px dashed transparent;
@@ -331,8 +353,10 @@
           <div class="times-up-title">⏰ TIME'S UP!</div>
           <div class="times-up-subtitle">Final countdown to answer:</div>
           <div class="times-up-countdown" id="times-up-countdown">10s</div>
-          <button class="btn-quiz btn-cancel" id="btn-times-up-close"
-            style="margin-top: 24px; min-width: 180px;">Close</button>
+          <div class="quiz-buttons" style="margin-top: 24px;">
+            <button class="btn-quiz btn-times-up-wrong" id="btn-times-up-wrong">Wrong</button>
+            <button class="btn-quiz btn-times-up-correct" id="btn-times-up-correct">Correct</button>
+          </div>
         </div>
       </div>
     </div>
@@ -425,6 +449,8 @@
       let timerAudio = null;
       let bgAudio = null;
       let winnerAudio = null;
+      let correctAudio = null;
+      let wrongAudio = null;
 
       const input = document.getElementById("group-count-input");
       const scoreboardContainer = document.getElementById("scoreboard-container");
@@ -436,7 +462,7 @@
       // Preset team names list (Famous luxury/fashion/lifestyle brands)
       const PRESET_TEAM_NAMES = [
         "Armani", "Balenciaga", "Bottega", "Burberry", "Carolina Herrera",
-        "Cavalli", "Celine", "Chanel", "Dior", "DKNY", 
+        "Cavalli", "Celine", "Chanel", "DKNY", 
         "Elie Saab", "Fendi", "Ferragamo", "Gaultier", "Givenchy", 
         "Gucci", "Jimmy Choo", "Karl Lagerfeld", "Kenzo", "Loewe", 
         "Marc Jacobs", "McQueen", "Melinda Looi", "Michael Kors", "Mugler", 
@@ -874,9 +900,29 @@
       });
 
 
-      // Time's Up overlay close button click listener
-      document.getElementById("btn-times-up-close").addEventListener("click", () => {
+      // Time's Up overlay Wrong and Correct buttons click listeners
+      document.getElementById("btn-times-up-wrong").addEventListener("click", () => {
         if (secondaryInterval) clearInterval(secondaryInterval);
+        
+        // Play wrong audio
+        if (!wrongAudio) {
+          wrongAudio = new Audio('audio/jeopardy_wrong_audio.mp3');
+        }
+        wrongAudio.currentTime = 0;
+        wrongAudio.play().catch(e => console.log("Wrong audio play blocked:", e));
+      });
+
+      document.getElementById("btn-times-up-correct").addEventListener("click", () => {
+        if (secondaryInterval) clearInterval(secondaryInterval);
+
+        // Play correct audio
+        if (!correctAudio) {
+          correctAudio = new Audio('audio/jeopardy_correct_audio.mp3');
+        }
+        correctAudio.currentTime = 0;
+        correctAudio.play().catch(e => console.log("Correct audio play blocked:", e));
+
+        // Hide overlay container
         document.getElementById("times-up-overlay").classList.remove("visible");
       });
 
