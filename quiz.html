@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Setup - Jeopardy Quiz</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     /* Absolute centering specifically for the initial setup container */
     #setup-container {
@@ -349,6 +350,7 @@
 
       <!-- Time's Up Overlay -->
       <div class="times-up-overlay" id="times-up-overlay">
+        <button class="modal-close-btn" id="times-up-close-btn">&times;</button>
         <div class="times-up-content">
           <div class="times-up-title">⏰ TIME'S UP!</div>
           <div class="times-up-subtitle">Final countdown to answer:</div>
@@ -922,7 +924,25 @@
         correctAudio.currentTime = 0;
         correctAudio.play().catch(e => console.log("Correct audio play blocked:", e));
 
+        // Trigger confetti
+        if (typeof confetti === "function") {
+          confetti({
+            particleCount: 150,
+            spread: 80,
+            origin: { y: 0.6 }
+          });
+        }
+
+        // Show the answer automatically
+        btnRevealAnswer.style.display = "none";
+        modalAnswerText.style.display = "block";
+
         // Hide overlay container
+        document.getElementById("times-up-overlay").classList.remove("visible");
+      });
+
+      document.getElementById("times-up-close-btn").addEventListener("click", () => {
+        if (secondaryInterval) clearInterval(secondaryInterval);
         document.getElementById("times-up-overlay").classList.remove("visible");
       });
 
